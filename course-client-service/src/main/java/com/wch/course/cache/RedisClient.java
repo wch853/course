@@ -1,5 +1,8 @@
 package com.wch.course.cache;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +29,23 @@ public class RedisClient {
 
     public void expire(String key, int timeout) {
         redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
+    }
+
+    public void set(byte[] key, byte[] value, int timeout) {
+        redisTemplate.execute((RedisCallback<Object>) redisConnection -> {
+            redisConnection.set(key, value);
+            redisConnection.expire(key, timeout);
+            return null;
+        });
+    }
+
+    public byte[] get(byte[] key) {
+        return redisTemplate.execute(new RedisCallback<byte[]>() {
+            @Override
+            public byte[] doInRedis(RedisConnection redisConnection) throws DataAccessException {
+                return redisConnection.get(key);
+            }
+        });
     }
 
 }

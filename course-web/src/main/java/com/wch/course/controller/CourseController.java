@@ -1,32 +1,32 @@
 package com.wch.course.controller;
 
-import com.wch.course.facade.IMessageFacade;
+import com.wch.course.facade.ICourseFacade;
 import com.wch.course.util.BusinessException;
 import com.wch.course.util.Response;
 import com.wch.course.util.ResponseDefinition;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
 @Slf4j
-@RestController("/message")
-public class MessageController {
+@RestController
+@RequestMapping("/course")
+public class CourseController {
 
     @Resource
-    private IMessageFacade messageFacade;
+    private ICourseFacade courseFacade;
 
-    @PostMapping("/verification/{mobile}")
-    public Response sendVerificationCode(@PathVariable("mobile") String mobile) {
+    @GetMapping("/query")
+    public Response queryCourseList() {
         try {
-            messageFacade.sendSMSMessage(mobile);
-            return Response.buildResponse(ResponseDefinition.SUCCESS);
+            return Response.buildResponse(courseFacade.queryCourseList(), ResponseDefinition.SUCCESS);
         } catch (BusinessException e) {
             return Response.buildResponse(ResponseDefinition.ERROR, e.getMessage());
         } catch (Exception e) {
-            log.error("sendVerificationCode Exception", e);
+            log.error("queryCourseList Exception", e);
             return Response.buildResponse(ResponseDefinition.ERROR);
         }
     }

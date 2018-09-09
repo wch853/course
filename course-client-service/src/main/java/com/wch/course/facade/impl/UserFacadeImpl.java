@@ -9,6 +9,8 @@ import com.wch.course.facade.IUserFacade;
 import com.wch.course.thrift.ThriftClient;
 import com.wch.course.util.BusinessException;
 import com.wch.course.util.CodeUtil;
+import com.wch.course.util.TSerializeUtil;
+import org.apache.thrift.TException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -50,9 +52,10 @@ public class UserFacadeImpl implements IUserFacade {
         }
     }
 
-    private void setTokenCache(String token, UserInfo userInfo) {
+    private void setTokenCache(String token, UserInfo userInfo) throws TException {
         userInfo.setPassword(null);
-        redisClient.set(Constants.USE_TOKEN_CACHE_PREFIX.concat(token), userInfo, Constants.USE_TOKEN_EXPIRE_TIME);
+        redisClient.set(Constants.USE_TOKEN_CACHE_PREFIX.concat(token).getBytes(), TSerializeUtil.serialize(userInfo),
+                Constants.USE_TOKEN_EXPIRE_TIME);
     }
 
     @Override

@@ -18,14 +18,14 @@ public class UserController {
     @Resource
     private IUserFacade userFacade;
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public Response login(@RequestBody UserDto userDto) {
         try {
             return Response.buildResponse(userFacade.handleUserLogin(userDto), ResponseDefinition.SUCCESS);
         } catch (BusinessException e) {
             return Response.buildResponse(ResponseDefinition.ERROR, e.getMessage());
         } catch (Exception e) {
-            log.error("login error", e);
+            log.error("login Exception", e);
             return Response.buildResponse(ResponseDefinition.ERROR);
         }
     }
@@ -38,7 +38,7 @@ public class UserController {
         } catch (BusinessException e) {
             return Response.buildResponse(ResponseDefinition.ERROR, e.getMessage());
         } catch (Exception e) {
-            log.error("login error", e);
+            log.error("register Exception", e);
             return Response.buildResponse(ResponseDefinition.ERROR);
         }
     }

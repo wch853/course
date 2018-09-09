@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course">
+
+    <select id="selectCourseList" resultType="CourseDto">
+        SELECT 
+            c.id, c.course_name, c.description, c.teacher_id,
+            t.id AS "teacher.id", t.teacher_name AS "teacher.teacherName", t.score AS "teacher.score"
+        FROM 
+            course c
+        LEFT JOIN teacher t
+            ON c.teacher_id = t.id
+    </select>
+
+</mapper>

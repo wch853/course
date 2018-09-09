@@ -30,7 +30,8 @@ public class MessageFacadeImpl implements IMessageFacade {
             Assert.state(isSuccess, "验证码发送失败！");
 
             // 将验证码写入缓存
-            redisClient.set(Constants.VERIFICATION_CODE_CACHE_PREFIX.concat(mobile), verificationCode, Constants.VERIFICATION_CODE_EXPIRE_TIME);
+            redisClient.set(Constants.VERIFICATION_CODE_CACHE_PREFIX.concat(mobile), verificationCode,
+                    Constants.VERIFICATION_CODE_EXPIRE_TIME);
         } catch (IllegalStateException e) {
             throw new BusinessException(e);
         }
