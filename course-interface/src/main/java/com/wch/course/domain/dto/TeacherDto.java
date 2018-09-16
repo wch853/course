@@ -1,6 +1,8 @@
 package com.wch.course.domain.dto;
 
-public class TeacherDto {
+import java.io.Serializable;
+
+public class TeacherDto implements Serializable {
 
     private Integer id;
 

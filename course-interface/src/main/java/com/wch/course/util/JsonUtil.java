@@ -1,11 +1,7 @@
 package com.wch.course.util;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 /**
  * Json工具类
@@ -13,7 +9,7 @@ import java.io.IOException;
  */
 public class JsonUtil {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    // private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtil.class);
 
@@ -25,15 +21,15 @@ public class JsonUtil {
      */
     public static String toJsonString(Object object) {
         String json = null;
-        if (object instanceof String) {
-            json = (String) object;
-        } else {
-            try {
-                json = MAPPER.writeValueAsString(object);
-            } catch (JsonProcessingException e) {
-                LOGGER.error("JsonUtil.toJsonString JsonProcessingException");
-            }
-        }
+        // if (object instanceof String) {
+        //     json = (String) object;
+        // } else {
+        //     try {
+        //         json = MAPPER.writeValueAsString(object);
+        //     } catch (JsonProcessingException e) {
+        //         LOGGER.error("JsonUtil.toJsonString JsonProcessingException");
+        //     }
+        // }
         return json;
     }
 
@@ -47,11 +43,11 @@ public class JsonUtil {
      */
     public static <T> T toBean(String json, Class<T> clazz) {
         T t = null;
-        try {
-            t = MAPPER.readValue(json, clazz);
-        } catch (IOException e) {
-            LOGGER.error("JsonUtil.toBean IOException");
-        }
+        // try {
+        //     t = MAPPER.readValue(json, clazz);
+        // } catch (IOException e) {
+        //     LOGGER.error("JsonUtil.toBean IOException");
+        // }
         return t;
     }
 }

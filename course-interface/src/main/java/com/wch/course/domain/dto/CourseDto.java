@@ -1,6 +1,8 @@
 package com.wch.course.domain.dto;
 
-public class CourseDto {
+import java.io.Serializable;
+
+public class CourseDto implements Serializable {
 
     /**
      * 课程编号

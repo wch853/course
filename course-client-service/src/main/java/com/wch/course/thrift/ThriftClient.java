@@ -18,14 +18,14 @@ public class ThriftClient {
     @Value("${thrift.service.timeout}")
     private int timeout;
 
-    @Value("${thrift.service.user.ip}")
-    private String userServiceIp;
+    @Value("${thrift.service.user.host}")
+    private String userServiceHost;
 
     @Value("${thrift.service.user.port}")
     private int userServicePort;
 
-    @Value("${thrift.service.message.ip}")
-    private String messageServiceIp;
+    @Value("${thrift.service.message.host}")
+    private String messageServiceHost;
 
     @Value("${thrift.service.message.port}")
     private int messageServicePort;
@@ -33,15 +33,15 @@ public class ThriftClient {
     /**
      * 获取服务
      *
-     * @param ip
+     * @param host
      * @param port
      * @param timeout
      * @param clazz
      * @return
      * @throws Exception
      */
-    private TServiceClient getService(String ip, int port, int timeout, Class<? extends TServiceClient> clazz) throws Exception {
-        TSocket socket = new TSocket(ip, port, timeout);
+    private TServiceClient getService(String host, int port, int timeout, Class<? extends TServiceClient> clazz) throws Exception {
+        TSocket socket = new TSocket(host, port, timeout);
         TFramedTransport transport = new TFramedTransport(socket);
         transport.open();
         TBinaryProtocol tBinaryProtocol = new TBinaryProtocol(transport);
@@ -50,11 +50,11 @@ public class ThriftClient {
     }
 
     public IUserService.Client getUserService() throws Exception {
-        return (IUserService.Client) getService(userServiceIp, userServicePort, timeout, IUserService.Client.class);
+        return (IUserService.Client) getService(userServiceHost, userServicePort, timeout, IUserService.Client.class);
     }
 
     public IMessageService.Client getMessageService() throws Exception {
-        return (IMessageService.Client) getService(messageServiceIp, messageServicePort, timeout, IMessageService.Client.class);
+        return (IMessageService.Client) getService(messageServiceHost, messageServicePort, timeout, IMessageService.Client.class);
     }
 
 }

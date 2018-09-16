@@ -29,6 +29,7 @@
         <module>course-web</module>
         <module>course-rpc-server</module>
         <module>course-client-service</module>
+        <module>course-api-gateway</module>
     </modules>
 
     <dependencyManagement>
@@ -127,6 +128,12 @@
                 <groupId>com.alibaba.boot</groupId>
                 <artifactId>dubbo-spring-boot-starter</artifactId>
                 <version>0.1.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zuul</artifactId>
+                <version>1.4.5.RELEASE</version>
             </dependency>
 
         </dependencies>

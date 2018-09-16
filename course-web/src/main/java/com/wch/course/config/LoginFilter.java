@@ -1,5 +1,7 @@
 package com.wch.course.config;
 
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+
 import javax.servlet.*;
 import java.io.IOException;
 
@@ -12,7 +14,8 @@ public class LoginFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        // TODO
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        String token = httpServletRequest.getParameter("token");
         chain.doFilter(request, response);
     }
 

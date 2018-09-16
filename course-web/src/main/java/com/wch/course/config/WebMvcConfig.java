@@ -3,7 +3,6 @@ package com.wch.course.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
@@ -16,13 +15,10 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
        return loginFilterRegistrationBean;
    }
 
-   @Bean
-   public LoginFilter loginFilter() {
-       return new LoginFilter();
-   }
-
-   @Bean
-   public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
-       return new HiddenHttpMethodFilter();
-   }
+   // @Bean
+   // public FilterRegistrationBean hiddenHttpMethodFilter() {
+   //     FilterRegistrationBean hiddenHttpMethodFilterRegistrationBean = new FilterRegistrationBean();
+   //     hiddenHttpMethodFilterRegistrationBean.setEnabled(false);
+   //     return hiddenHttpMethodFilterRegistrationBean;
+   // }
 }

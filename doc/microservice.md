@@ -70,3 +70,21 @@
 - 内嵌web服务器
 - 简化配置
 - 准生产的应用监控
+
+### 故障
+#### MySQL默认禁止远程连接
+MySQL默认禁止远程连接，需要配置docker容器连接用户的远程连接权限。
+```
+grant all privileges on *.* to 'root'@'%' identified by 'pwd';
+flush privileges;
+# 查看指定用户是否改为不限制IP登录
+SELECT user, host FROM mysql.user;
+```
+#### redis-windows默认绑定本地
+在redis配置文件中，配置 bind 127.0.0.1 表示redis限制本地连接，windows版本默认是开启的，docker容器进行连接时需要注释此配置、
+#### redis设置密码错误
+拉取的redis镜像默认没有配置密码，若配置文件中填写了密码进行连接会保错。在上docker版本的配置文件中通过配置默认值，即：
+```
+spring.redis.password=
+```
+来覆盖密码配置。

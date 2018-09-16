@@ -44,7 +44,7 @@ public class ThriftServer {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                log.info("thrift server start ...");
+                log.info("thrift server start on {} ...", thriftServicePort);
                 server.serve();
             }
         }).start();

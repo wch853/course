@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  course-redis:
+    image: redis:latest
+
+  course-zookeeper:
+    image: zookeeper:3.4.13
+
+  course-rpc-server:
+    image: course-rpc-server:1.0
+    links:
+      - course-zookeeper
+    command:
+      - "--spring.profiles.active=prd"
+      - "--rpc.thrift.port=8081"
+      - "--dubbo.port=8083"
+      - "--registry.address=course-zookeeper:2181"
+      - "--mysql.address=192.168.1.106:3306"
+
+  course-web:
+    image: course-web:1.0
+    links:
+      - course-redis
+      - course-zookeeper
+      - course-rpc-server
+    command:
+      - "--spring.profiles.active=prd"
+      - "--server.port=8080"
+      - "--thrift.service.user.host=course-rpc-server"
+      - "--thrift.service.user.port=8081"
+      - "--redis.host=course-redis"
+      - "--redis.port=6379"
+      - "--registry.address=course-zookeeper:2181"
+
+  course-api-gateway:
+    image: course-api-gateway:1.0
+    links:
+      - course-web
+    command:
+      - "--spring.profiles.active=prd"
+      - "--server.port=80"
+      - "--course.web.host=course-web"
+      - "--course.web.port=8080"
+    ports:
+      - 80:80
