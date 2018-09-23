@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.15.RELEASE</version>
+        <version>1.5.16.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -26,9 +26,10 @@
     <modules>
         <module>course-interface</module>
         <module>course-service</module>
-        <module>course-web</module>
-        <module>course-rpc-server</module>
+        <module>course-dubbo-server</module>
+        <module>course-thrift-server</module>
         <module>course-client-service</module>
+        <module>course-web</module>
         <module>course-api-gateway</module>
     </modules>
 

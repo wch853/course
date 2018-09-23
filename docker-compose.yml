@@ -1,46 +1,98 @@
 version: '3'
 
 services:
-  course-redis:
-    image: redis:latest
-
-  course-zookeeper:
+  zookeeper:
     image: zookeeper:3.4.13
+    networks:
+      - rpc-bridge
 
-  course-rpc-server:
-    image: course-rpc-server:1.0
+  redis:
+    image: redis:latest
+    command:
+      - "--appendonly yes"
+    volumes:
+      - d:/docker/redis:/data
+    networks:
+      - component-bridge
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - d:/docker/mysql/data:/var/lib/mysql
+      - d:/docker/mysql/conf/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - data-bridge
+
+  thrift-server:
+    image: course-thrift-server:1.0
     links:
-      - course-zookeeper
+      - mysql
     command:
       - "--spring.profiles.active=prd"
       - "--rpc.thrift.port=8081"
-      - "--dubbo.port=8083"
-      - "--registry.address=course-zookeeper:2181"
-      - "--mysql.address=192.168.1.106:3306"
+      - "--mysql.address=mysql:3306"
+    networks:
+      - rpc-bridge
+      - data-bridge
 
-  course-web:
+  dubbo-server:
+    image: course-dubbo-server:1.0
+    links:
+      - zookeeper
+      - mysql
+    command:
+      - "--spring.profiles.active=prd"
+      - "--dubbo.port=8083"
+      - "--registry.address=zookeeper:2181"
+      - "--mysql.address=mysql:3306"
+    networks:
+      - rpc-bridge
+      - data-bridge
+
+  web:
     image: course-web:1.0
     links:
-      - course-redis
-      - course-zookeeper
-      - course-rpc-server
+      - redis
+      - zookeeper
+      - thrift-server
+    volumes:
+      - d:/docker/app/logs/course-web:/var/app/logs/course-web
     command:
       - "--spring.profiles.active=prd"
       - "--server.port=8080"
-      - "--thrift.service.user.host=course-rpc-server"
+      - "--thrift.service.user.host=thrift-server"
       - "--thrift.service.user.port=8081"
-      - "--redis.host=course-redis"
+      - "--redis.host=redis"
       - "--redis.port=6379"
-      - "--registry.address=course-zookeeper:2181"
+      - "--registry.address=zookeeper:2181"
+    networks:
+      - rpc-bridge
+      - component-bridge
+      - net-bridge
 
-  course-api-gateway:
+  api-gateway:
     image: course-api-gateway:1.0
     links:
-      - course-web
+      - web
     command:
       - "--spring.profiles.active=prd"
       - "--server.port=80"
-      - "--course.web.host=course-web"
-      - "--course.web.port=8080"
+      - "--web.host=web"
+      - "--web.port=8080"
     ports:
       - 80:80
+    networks:
+      - net-bridge
+
+networks:
+  net-bridge:
+    driver: bridge
+  component-bridge:
+    driver: bridge
+  data-bridge:
+    driver: bridge
+  rpc-bridge:
+    driver: bridge
