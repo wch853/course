@@ -1,5 +1,5 @@
-namespace java com.wch.course.service.thrift
-namespace go course.rpc.service.thrift
+namespace java com.wch.course.thrift.service
+namespace go course.rpc.service
 
 /**
  * 消息服务

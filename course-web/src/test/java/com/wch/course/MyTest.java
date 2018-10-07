@@ -2,7 +2,7 @@ package com.wch.course;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wch.course.domain.dto.UserDto;
-import com.wch.course.domain.thrift.UserInfo;
+import com.wch.course.thrift.domain.UserInfo;
 import com.wch.course.util.JsonUtil;
 import org.apache.thrift.TDeserializer;
 import org.apache.thrift.TException;

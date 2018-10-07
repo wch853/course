@@ -7,12 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.util.List;
+
 @Repository
 public class CourseDaoImpl implements ICourseDao {
 
     @Resource
     private SqlSessionTemplate sst;
-    
+
     @Override
     public List<CourseDto> selectCourseList() {
         return sst.selectList("course.selectCourseList");

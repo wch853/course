@@ -1,6 +1,6 @@
 package com.wch.course.thrift;
 
-import com.wch.course.service.thrift.IUserService;
+import com.wch.course.thrift.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;

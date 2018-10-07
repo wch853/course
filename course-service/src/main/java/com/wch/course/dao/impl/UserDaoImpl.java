@@ -1,7 +1,7 @@
 package com.wch.course.dao.impl;
 
 import com.wch.course.dao.IUserDao;
-import com.wch.course.domain.thrift.UserInfo;
+import com.wch.course.thrift.domain.UserInfo;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 

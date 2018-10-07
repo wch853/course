@@ -1,6 +1,6 @@
 package com.wch.course.dao;
 
-import com.wch.course.domain.thrift.UserInfo;
+import com.wch.course.thrift.domain.UserInfo;
 
 public interface IUserDao {
 

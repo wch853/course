@@ -1,8 +1,8 @@
 package com.wch.course.service.impl;
 
 import com.wch.course.dao.IUserDao;
-import com.wch.course.domain.thrift.UserInfo;
-import com.wch.course.service.thrift.IUserService;
+import com.wch.course.thrift.domain.UserInfo;
+import com.wch.course.thrift.service.IUserService;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Service;
 

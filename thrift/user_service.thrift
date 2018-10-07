@@ -1,4 +1,4 @@
-namespace java com.wch.course.service.thrift
+namespace java com.wch.course.thrift.service
 
 include 'user_model.thrift'
 

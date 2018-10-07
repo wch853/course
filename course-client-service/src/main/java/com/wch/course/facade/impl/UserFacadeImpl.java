@@ -4,9 +4,9 @@ import com.wch.course.cache.RedisClient;
 import com.wch.course.constant.Constants;
 import com.wch.course.domain.dto.LoginDto;
 import com.wch.course.domain.dto.UserDto;
-import com.wch.course.domain.thrift.UserInfo;
 import com.wch.course.facade.IUserFacade;
 import com.wch.course.thrift.ThriftClient;
+import com.wch.course.thrift.domain.UserInfo;
 import com.wch.course.util.BusinessException;
 import com.wch.course.util.CodeUtil;
 import com.wch.course.util.TSerializeUtil;
@@ -67,13 +67,13 @@ public class UserFacadeImpl implements IUserFacade {
                     .concat(userDto.getMobile().toString()));
             Assert.state(verificationCode.equals(codeInCache), "验证码有误！");
 
-            UserInfo userInfo = new UserInfo();
             Assert.notNull(userDto.getUsername(), "用户名不可为空！");
             Assert.notNull(userDto.getPassword(), "密码不可为空！");
             Assert.notNull(userDto.getRealName(), "真实姓名不可为空！");
             Assert.notNull(userDto.getEmail(), "电子邮箱不可为空！");
 
-            BeanUtils.copyProperties(userDto, userInfo, "password");
+            UserInfo userInfo = new UserInfo();
+            BeanUtils.copyProperties(userDto, userInfo, "id", "password");
             userInfo.setPassword(DigestUtils.md5DigestAsHex(userDto.getPassword().getBytes()));
             thriftClient.getUserService().addUser(userInfo);
 

@@ -1,4 +1,4 @@
-namespace java com.wch.course.domain.thrift
+namespace java com.wch.course.thrift.domain
 
 typedef i32 INT
 typedef i64 LONG

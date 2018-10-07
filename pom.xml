@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <groupId>com.wch.course</groupId>
     <artifactId>course</artifactId>
     <packaging>pom</packaging>
@@ -22,7 +22,7 @@
         <java.version>1.8</java.version>
         <springboot.version>1.5.15.RELEASE</springboot.version>
     </properties>
-    
+
     <modules>
         <module>course-interface</module>
         <module>course-service</module>
@@ -135,6 +135,12 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-zuul</artifactId>
                 <version>1.4.5.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>6.4.2</version>
             </dependency>
 
         </dependencies>

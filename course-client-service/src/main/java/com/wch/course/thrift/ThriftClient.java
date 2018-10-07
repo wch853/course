@@ -1,7 +1,7 @@
 package com.wch.course.thrift;
 
-import com.wch.course.service.thrift.IMessageService;
-import com.wch.course.service.thrift.IUserService;
+import com.wch.course.thrift.service.IMessageService;
+import com.wch.course.thrift.service.IUserService;
 import org.apache.thrift.TServiceClient;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
