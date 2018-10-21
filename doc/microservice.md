@@ -198,6 +198,71 @@ public class ThriftServer {
 }
 ```
 
+#### 消息服务
+消息服务提供发送短信、邮件功能（模拟），由Go语言实现Thrift服务端。
+#### 下载thrift的Go依赖包
+```
+go get -v git.apache.org/thrift.git/lib/go/thrift
+```
+##### thrift定义
+```
+namespace java com.wch.course.thrift.service
+namespace go course.rpc.service
+
+/**
+ * 消息服务
+ */
+service IMessageService {
+
+    /**
+     * 发送短信
+     */
+    bool sendSMSMessage(1: string mobile, 2: string message);
+
+    /**
+     * 发送邮件
+     */
+    bool sendEmailMessage(1: string email, 2: string message);
+}
+```
+##### 接口实现
+```
+type MessageServiceImpl struct {
+}
+
+func (c *MessageServiceImpl) SendSMSMessage(ctx context.Context, mobile string, message string) (r bool, err error) {
+	fmt.Printf("send to %s, message: %s\n", mobile, message)
+	return true, nil
+}
+
+func (c *MessageServiceImpl) SendEmailMessage(ctx context.Context, email string, message string) (r bool, err error) {
+	fmt.Printf("send to %s, message: %s\n", email, message)
+	return true, nil
+}
+``` 
+##### 暴露thrift服务
+```
+func init()  {
+	flag.StringVar(&Host, "host", "localhost:8082", "thrift port")
+	flag.Parse()
+}
+
+func Start() {
+	handler := &impl.MessageServiceImpl{}
+	serviceProcessor := service.NewIMessageServiceProcessor(handler)
+	socket, err := thrift.NewTServerSocket(Host)
+	if nil != err {
+		panic(err)
+	}
+	transportFactory := thrift.NewTFramedTransportFactory(thrift.NewTTransportFactory())
+	protocolFactory := thrift.NewTBinaryProtocolFactoryDefault()
+
+	server := thrift.NewTSimpleServer4(serviceProcessor, socket, transportFactory, protocolFactory)
+	log.Printf("thrift server in %s", Host)
+	server.Serve()
+}
+```
+
 #### 课程服务
 课程服务负责查询课程信息，实现课程服务并将Dubbo接口注册到zookeeper。
 使用dubbo-spring-boot-starter作为dubbo与SpringBoot集成的jar包（SpringBoot 1.x版本只支持dubbo-spring-boot-starter 0.1.1）。为了后期与docker集成，部分参数以占位符的形式存在，而dubbo-spring-boot-starter的自动配置很早就从配置文件中取固定格式的dubbo配置，此时部分参数还是占位符的形式，导致自动配置失败，因此本项目选择自定义配置参数名称，手动编写部分配置替换自动配置。
@@ -455,7 +520,7 @@ spring.redis.password=
 ```
 来覆盖密码配置。
 #### mysql容器ssl连接错误
-使用java客户端连接mysql容器出错，seSSL参数修改为false。
+使用java客户端连接mysql容器出错，useSSL参数修改为false。
 ```
 jdbc:mysql://${mysql.address}/test?useUnicode=true&characterEncoding=utf8&useSSL=false
 ```
